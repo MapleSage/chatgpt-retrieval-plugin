@@ -24,10 +24,10 @@ If you want to create your own index with custom configurations, you can do so u
 
 import os, pinecone
 
-pinecone.init(api_key=os.environ['PINECONE_API_KEY'],
-              environment=os.environ['PINECONE_ENVIRONMENT'])
+pinecone.init(api_key=os.environ['6d5279f7-a4df-498e-a379-c975cfa2641b'],
+              environment=os.environ['northamerica-northeast1-gcp'])
 
-pinecone.create_index(name=os.environ['PINECONE_INDEX'],
+pinecone.create_index(name=os.environ['msxgpt'],
                       dimension=1536,
                       metric='cosine',
                       metadata_config={
