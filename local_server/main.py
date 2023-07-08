@@ -1,6 +1,8 @@
 # This is a version of the main.py file found in ../../../server/main.py for testing the plugin locally.
 # Use the command `poetry run dev` to run this.
 from typing import Optional
+from dotenv import load_dotenv
+load_dotenv()  # take environment variables from .env.
 import uvicorn
 from fastapi import FastAPI, File, Form, HTTPException, Body, UploadFile
 from loguru import logger

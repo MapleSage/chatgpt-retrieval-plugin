@@ -1,5 +1,7 @@
 import os
 from typing import Optional
+from dotenv import load_dotenv
+load_dotenv()  # take environment variables from .env.
 import uvicorn
 from fastapi import FastAPI, File, Form, HTTPException, Depends, Body, UploadFile
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
