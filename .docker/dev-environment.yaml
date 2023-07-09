@@ -1,0 +1,16 @@
+version: "0.1"
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: uvicorn server.main:app --host 0.0.0.0 --port 8000
+    environment:
+      - DATASTORE=pinecone
+      - BEARER_TOKEN=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.e30.3_RWWFhAEbYldwJy_bS-g3SbemmC9RGtqyIcVcS8RlE
+      - OPENAI_API_KEY=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
+      - PINECONE_API_KEY=6d5279f7-a4df-498e-a379-c975cfa2641b
+      - PINECONE_ENVIRONMENT=northamerica-northeast1-gcp
+      - PINECONE_INDEX=msxgpt
+    ports:
+      - 8000:8000

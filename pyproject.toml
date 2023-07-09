@@ -12,7 +12,7 @@ url = "https://pkgs.dev.azure.com/azure-sdk/public/_packaging/azure-sdk-for-pyth
 secondary = true
 
 [tool.poetry.dependencies]
-python = "^3.10"
+python = "^3.10.12"
 fastapi = "^0.92.0"
 uvicorn = "^0.20.0"
 openai = "^0.27.5"
@@ -30,6 +30,8 @@ chromadb = "^0.3.25"
 pinecone-client = "^2.1.0"
 
 loguru = "^0.7.0"
+onnxruntime = "1.15.1"
+alpine = "^1.0.14"
 
 [tool.poetry.scripts]
 start = "server.main:start"

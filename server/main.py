@@ -105,20 +105,35 @@ async def query_main(
         raise HTTPException(status_code=500, detail="Internal Service Error")
 
 
-@sub_app.post(
+@app.post(
     "/query",
     response_model=QueryResponse,
-    # NOTE: We are describing the shape of the API endpoint input due to a current limitation in parsing arrays of objects from OpenAPI schemas. This will not be necessary in the future.
-    description="Accepts search query objects array each with query and optional filter. Break down complex questions into sub-questions. Refine results by criteria, e.g. time / source, don't do this often. Split queries if ResponseTooLargeError occurs.",
 )
-async def query(
+async def query_main(
     request: QueryRequest = Body(...),
 ):
     try:
-        results = await datastore.query(
-            request.queries,
+        # Embed the query using the OpenAI API
+        res = openai.Embedding.create(
+            input=[request.query],
+            engine=embed_model
         )
-        return QueryResponse(results=results)
+        # Retrieve from Pinecone
+        xq = res['data'][0]['embedding']
+        res = index.query(xq, top_k=5, include_metadata=True)
+        # Get list of retrieved text
+        contexts = [item['metadata']['text'] for item in res['matches']]
+        augmented_query = "\n\n---\n\n".join(contexts)+"\n\n-----\n\n"+request.query
+        # Ask the question
+        res = openai.ChatCompletion.create(
+            model="gpt-3.5-turbo",
+            messages=[
+                {"role": "system", "content": primer},
+                {"role": "user", "content": augmented_query}
+            ]
+        )
+        # Return the result
+        return QueryResponse(result=res['choices'][0]['message']['content'])
     except Exception as e:
         logger.error(e)
         raise HTTPException(status_code=500, detail="Internal Service Error")
