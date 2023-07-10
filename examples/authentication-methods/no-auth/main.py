@@ -32,6 +32,10 @@ sub_app = FastAPI(
 )
 app.mount("/sub", sub_app)
 
+@app.get("/health")
+def health_check():
+    return {"status": "healthy"}
+
 
 @app.post(
     "/upsert-file",

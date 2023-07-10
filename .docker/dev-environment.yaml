@@ -4,7 +4,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    command: uvicorn server.main:app --host 0.0.0.0 --port 8000
+    command: uvicorn server.main:app --host 0.0.0.0 --port 8080
     environment:
       - DATASTORE=pinecone
       - BEARER_TOKEN=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.e30.3_RWWFhAEbYldwJy_bS-g3SbemmC9RGtqyIcVcS8RlE
@@ -13,4 +13,4 @@ services:
       - PINECONE_ENVIRONMENT=northamerica-northeast1-gcp
       - PINECONE_INDEX=msxgpt
     ports:
-      - 8000:8000
+      - 80:8080

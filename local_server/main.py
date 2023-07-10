@@ -41,6 +41,10 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+@app.get("/health")
+def health_check():
+    return {"status": "healthy"}
+
 
 @app.route("/.well-known/ai-plugin.json")
 async def get_manifest(request):
